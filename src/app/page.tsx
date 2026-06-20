@@ -2,6 +2,7 @@ import Link from "next/link";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import HeroChandelier from "@/components/theme/HeroChandelier";
+import RevealIntro from "@/components/theme/RevealIntro";
 import { Clock, Rose } from "@/components/theme/SalonDecor";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
@@ -44,6 +45,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <RevealIntro />
       <SiteHeader />
 
       {/* ---------------------------------------------------------------- Hero */}
