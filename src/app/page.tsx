@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Backdrop from "@/components/Backdrop";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
+import { Chandelier, Clock, Rose } from "@/components/theme/SalonDecor";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 import { SALON, hoursForDisplay } from "@/lib/salon-config";
@@ -24,16 +24,15 @@ async function getServicesByCategory(): Promise<[string, ServiceCard[]][]> {
   });
   const groups = new Map<string, ServiceCard[]>();
   for (const s of services) {
-    const card: ServiceCard = {
+    if (!groups.has(s.category)) groups.set(s.category, []);
+    groups.get(s.category)!.push({
       id: s.id,
       name: s.name,
       description: s.description,
       durationMinutes: s.durationMinutes,
       priceCents: s.priceCents,
       category: s.category,
-    };
-    if (!groups.has(s.category)) groups.set(s.category, []);
-    groups.get(s.category)!.push(card);
+    });
   }
   return Array.from(groups.entries());
 }
@@ -44,63 +43,70 @@ export default async function HomePage() {
 
   return (
     <>
-      <SiteHeader transparent />
+      <SiteHeader />
 
       {/* ---------------------------------------------------------------- Hero */}
-      <section className="relative isolate overflow-hidden">
-        <Backdrop />
-        <div className="container-page flex min-h-[88vh] flex-col justify-center py-32">
-          <p className="eyebrow animate-fade-up">
-            {SALON.cityLine.split(",")[0]} · Est. 2014
+      <section className="relative isolate overflow-hidden stripes">
+        {/* soft cream wash keeps the headline legible over the stripes */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_45%,_rgba(251,246,242,0.92),_rgba(251,246,242,0.55)_55%,_transparent)]" />
+
+        <Chandelier />
+        <Clock className="hidden sm:block" />
+        <Rose variant="br" className="bottom-[5%] right-[3%] sm:right-[7%]" />
+        <Rose
+          variant="tl"
+          className="left-[4%] top-[40%] hidden md:block"
+          width="clamp(80px,9vw,140px)"
+        />
+
+        <div className="container-page relative flex min-h-[94vh] flex-col items-center justify-center py-36 text-center">
+          <p className="script text-4xl text-accent animate-fade-up sm:text-5xl">
+            hello beautiful
           </p>
-          <h1 className="mt-5 max-w-4xl text-balance text-5xl leading-[1.05] animate-fade-up [animation-delay:60ms] sm:text-6xl lg:text-7xl">
-            Beautiful hair, <span className="text-accent">by people</span> who
-            love doing it.
+          <h1 className="mt-2 text-balance font-serif text-6xl font-medium leading-[1.02] animate-fade-up [animation-delay:80ms] sm:text-7xl lg:text-8xl">
+            {SALON.name}
           </h1>
-          <p className="mt-6 max-w-xl text-balance text-lg leading-relaxed text-muted animate-fade-up [animation-delay:120ms]">
-            {SALON.tagline} Book online in under a minute — we&apos;ll take care
-            of the rest.
+          <p className="mt-6 max-w-xl text-balance text-lg leading-relaxed text-muted animate-fade-up [animation-delay:140ms]">
+            {SALON.tagline}
           </p>
-          <div className="mt-9 flex flex-wrap items-center gap-3 animate-fade-up [animation-delay:180ms]">
-            <Link href="/book" className="btn-accent !px-7 !py-3.5 text-base">
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3 animate-fade-up [animation-delay:200ms]">
+            <Link href="/book" className="btn-accent !px-8 !py-3.5 text-base">
               Book an appointment
             </Link>
-            <Link href="#services" className="btn-ghost !px-7 !py-3.5 text-base">
-              View services &amp; pricing
+            <Link href="#services" className="btn-ghost !px-8 !py-3.5 text-base">
+              Services &amp; pricing
             </Link>
           </div>
-          <dl className="mt-14 flex flex-wrap gap-x-12 gap-y-4 text-sm animate-fade-up [animation-delay:240ms]">
-            <div>
-              <dt className="text-muted">Walk in, or book ahead</dt>
-              <dd className="font-medium">{SALON.address}</dd>
-            </div>
-            <div>
-              <dt className="text-muted">Open today &amp; this week</dt>
-              <dd className="font-medium">Tue – Sat · by appointment</dd>
-            </div>
-          </dl>
+          <p className="mt-10 text-sm text-muted animate-fade-up [animation-delay:260ms]">
+            {SALON.address} · {SALON.cityLine.split(",")[0]} &nbsp;•&nbsp; Tue–Sat by
+            appointment
+          </p>
         </div>
       </section>
 
       {/* ------------------------------------------------------------ Services */}
-      <section id="services" className="border-t border-line bg-surface">
+      <section id="services" className="relative border-t border-line bg-bg">
         <div className="container-page py-20 sm:py-28">
-          <div className="max-w-2xl">
-            <p className="eyebrow">The menu</p>
-            <h2 className="mt-3 text-4xl sm:text-5xl">Services &amp; pricing</h2>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="script text-3xl text-accent">the menu</p>
+            <h2 className="mt-1 font-serif text-4xl sm:text-5xl">Services &amp; pricing</h2>
             <p className="mt-4 text-muted">
-              Every appointment starts with a consultation. Pricing starts at the
-              listed rate and may vary with hair length and density — your stylist
-              will confirm before we begin.
+              Every appointment begins with a consultation. Listed prices are a
+              starting point and may vary with hair length and density — your
+              stylist will always confirm first.
             </p>
           </div>
 
-          <div className="mt-14 space-y-16">
+          <div className="mt-16 space-y-16">
             {categories.map(([category, items]) => (
-              <div key={category} className="grid gap-x-12 gap-y-6 lg:grid-cols-[200px_1fr]">
-                <h3 className="text-2xl text-accent lg:sticky lg:top-28 lg:self-start">
-                  {category}
-                </h3>
+              <div
+                key={category}
+                className="grid gap-x-12 gap-y-6 lg:grid-cols-[220px_1fr]"
+              >
+                <div className="lg:sticky lg:top-28 lg:self-start">
+                  <h3 className="font-serif text-3xl text-accent">{category}</h3>
+                  <div className="mt-2 h-px w-16 bg-accent/40" />
+                </div>
                 <div className="divide-y divide-line">
                   {items.map((s) => (
                     <div
@@ -109,7 +115,7 @@ export default async function HomePage() {
                     >
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-baseline gap-x-3">
-                          <h4 className="font-serif text-lg">{s.name}</h4>
+                          <h4 className="font-serif text-xl">{s.name}</h4>
                           <span className="text-xs uppercase tracking-wider text-muted">
                             {formatDuration(s.durationMinutes)}
                           </span>
@@ -119,12 +125,12 @@ export default async function HomePage() {
                         </p>
                       </div>
                       <div className="flex shrink-0 flex-col items-end gap-1">
-                        <span className="font-medium tabular-nums">
+                        <span className="font-medium tabular-nums text-ink">
                           {formatPrice(s.priceCents)}
                         </span>
                         <Link
                           href={`/book?service=${s.id}`}
-                          className="text-xs font-medium text-accent opacity-0 transition-opacity hover:underline group-hover:opacity-100 max-lg:opacity-100"
+                          className="text-xs font-medium text-accent transition-opacity hover:underline lg:opacity-0 lg:group-hover:opacity-100"
                         >
                           Book →
                         </Link>
@@ -139,40 +145,40 @@ export default async function HomePage() {
       </section>
 
       {/* ---------------------------------------------------------- Experience */}
-      <section className="bg-ink text-bg">
+      <section className="bg-ink text-cream">
         <div className="container-page grid gap-12 py-20 sm:py-28 lg:grid-cols-3">
           {[
             {
               t: "A real consultation",
-              d: "We listen first. Bring inspo, bring nothing — we'll find the look that fits your hair and your life.",
+              d: "We listen first. Bring inspo or bring nothing — we'll find the look that fits your hair and your life.",
             },
             {
-              t: "Color that grows out well",
-              d: "Lived-in, low-maintenance color so you look great between visits, not just the day you leave.",
+              t: "Color that grows out beautifully",
+              d: "Lived-in, low-maintenance color so you look great between visits, not just the day you leave the chair.",
             },
             {
-              t: "On your schedule",
+              t: "Booked around your day",
               d: "Transparent pricing and easy online booking. Reschedule in a tap if life happens.",
             },
           ].map((f) => (
             <div key={f.t}>
               <div className="mb-4 h-px w-12 bg-accent" />
-              <h3 className="text-2xl">{f.t}</h3>
-              <p className="mt-3 leading-relaxed text-bg/70">{f.d}</p>
+              <h3 className="font-serif text-2xl">{f.t}</h3>
+              <p className="mt-3 leading-relaxed text-cream/70">{f.d}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* --------------------------------------------------------------- Visit */}
-      <section id="visit" className="bg-bg">
+      <section id="visit" className="relative overflow-hidden stripes-soft">
         <div className="container-page grid gap-12 py-20 sm:py-28 lg:grid-cols-2">
           <div>
-            <p className="eyebrow">Visit us</p>
-            <h2 className="mt-3 text-4xl sm:text-5xl">Come say hello</h2>
+            <p className="script text-3xl text-accent">come say hello</p>
+            <h2 className="mt-1 font-serif text-4xl sm:text-5xl">Visit the salon</h2>
             <p className="mt-4 max-w-md text-muted">
-              Tucked just off the main drag with easy parking out back. New
-              clients always welcome.
+              Tucked just off the main drag with easy parking out back. New clients
+              are always welcome.
             </p>
             <div className="mt-8 space-y-4 text-sm">
               <div>
@@ -197,14 +203,14 @@ export default async function HomePage() {
                 </a>
               </div>
             </div>
-            <Link href="/book" className="btn-ink mt-9 !px-7 !py-3.5">
+            <Link href="/book" className="btn-accent mt-9 !px-8 !py-3.5">
               Book your visit
             </Link>
           </div>
 
           <div className="card overflow-hidden">
             <div className="border-b border-line bg-surface px-6 py-4">
-              <h3 className="font-serif text-xl">Hours</h3>
+              <h3 className="font-serif text-2xl">Hours</h3>
             </div>
             <ul className="divide-y divide-line">
               {hours.map((h) => (

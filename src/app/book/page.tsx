@@ -52,7 +52,7 @@ export default async function BookPage({
   const quickDates = nextOpenDates(6);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col stripes-soft">
       <header className="sticky top-0 z-30 border-b border-line bg-bg/85 backdrop-blur">
         <div className="container-page flex h-20 items-center justify-between">
           <Link href="/" className="flex flex-col leading-none">
@@ -68,9 +68,9 @@ export default async function BookPage({
       </header>
 
       <main className="container-page w-full max-w-3xl flex-1 py-12 sm:py-16">
-        <div className="mb-8">
-          <p className="eyebrow">Appointments</p>
-          <h1 className="mt-3 text-4xl sm:text-5xl">Book your visit</h1>
+        <div className="mb-8 text-center">
+          <p className="script text-3xl text-accent">hello beautiful</p>
+          <h1 className="mt-1 font-serif text-4xl sm:text-5xl">Book your visit</h1>
           <p className="mt-3 text-muted">
             Pick a service, choose a time that works, and you&apos;re set. It takes
             about a minute.

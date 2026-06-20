@@ -1,17 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Cormorant_Garamond, Jost, Parisienne } from "next/font/google";
 import { SALON } from "@/lib/salon-config";
 import "./globals.css";
 
-const serif = Fraunces({
+// Elegant display serif for headings.
+const serif = Cormorant_Garamond({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-serif",
   display: "swap",
 });
 
-const sans = Inter({
+// Clean geometric sans for body & UI.
+const sans = Jost({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+// Romantic script for "hello beautiful" flourishes.
+const script = Parisienne({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-script",
   display: "swap",
 });
 
@@ -24,7 +35,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F7F3EE",
+  themeColor: "#FAF5F1",
 };
 
 export default function RootLayout({
@@ -33,7 +44,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable}`}>
+    <html
+      lang="en"
+      className={`${serif.variable} ${sans.variable} ${script.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

@@ -3,18 +3,25 @@
 @tailwind utilities;
 
 /* ===========================================================================
-   Brand design tokens.  Re-skin the whole site by editing these values.
-   Colors are space-separated RGB triplets so Tailwind's "/ <alpha-value>"
-   opacity syntax works (see tailwind.config.ts).
+   Main Street Salon — brand tokens, themed to the salon's real interior:
+   pink + white striped wallpaper, pink peonies, a crystal chandelier, an
+   antique station clock, and a black "hello beautiful" script.
+   Re-skin by editing these CSS variables.
    =========================================================================== */
 :root {
-  --bg: 247 243 238; /* warm cream      #F7F3EE */
-  --surface: 255 255 255; /* card white     #FFFFFF */
-  --ink: 33 28 25; /* near-black warm #211C19 */
-  --muted: 111 101 93; /* soft taupe text #6F655D */
-  --line: 231 222 212; /* hairline border #E7DED4 */
-  --accent: 166 75 58; /* terracotta      #A64B3A */
-  --accent-deep: 125 53 40; /* deep clay   #7D3528 */
+  --bg: 250 245 241; /* warm cream            #FAF5F1 */
+  --surface: 255 255 255; /* card white       #FFFFFF */
+  --ink: 28 25 24; /* near-black (the script) #1C1918 */
+  --muted: 140 128 122; /* warm taupe text    #8C807A */
+  --line: 238 226 221; /* hairline border     #EEE2DD */
+  --accent: 201 86 120; /* peony rose          #C95678 */
+  --accent-deep: 158 58 88; /* deep rose       #9E3A58 */
+
+  --blush: 241 197 204; /* striped wall pink   #F1C5CC */
+  --cream: 251 246 242; /* striped wall white  #FBF6F2 */
+  --gold: 194 160 94; /* chandelier gold       #C2A05E */
+
+  --stripe-w: 5.4vw; /* one stripe's width (pink or white) */
 }
 
 @layer base {
@@ -33,7 +40,7 @@
   h3,
   h4 {
     @apply font-serif;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 }
 
@@ -54,19 +61,22 @@
            hover:shadow-md active:translate-y-px;
   }
   .btn-ink {
-    @apply btn bg-ink text-bg hover:bg-ink/90 active:translate-y-px;
+    @apply btn bg-ink text-cream hover:bg-ink/90 active:translate-y-px;
   }
   .btn-ghost {
-    @apply btn border border-line bg-surface/60 text-ink hover:border-ink/30
+    @apply btn border border-line bg-surface/70 text-ink hover:border-accent/40
            hover:bg-surface;
   }
 
   .card {
-    @apply rounded-xl2 border border-line bg-surface shadow-[0_1px_0_rgba(0,0,0,0.02)];
+    @apply rounded-xl2 border border-line bg-surface shadow-[0_1px_2px_rgba(28,25,24,0.04)];
   }
 
   .eyebrow {
-    @apply text-xs font-medium uppercase tracking-[0.22em] text-accent;
+    @apply text-xs font-medium uppercase tracking-[0.28em] text-accent;
+  }
+  .script {
+    @apply font-script font-normal;
   }
 
   .field-label {
@@ -83,14 +93,27 @@
   .text-balance {
     text-wrap: balance;
   }
-  /* Subtle film-grain overlay for the procedural hero backdrop. */
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.4;
-    mix-blend-mode: soft-light;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* The signature pink + white vertical striped wallpaper. */
+  .stripes {
+    background-color: rgb(var(--cream));
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgb(var(--blush)) 0,
+      rgb(var(--blush)) var(--stripe-w),
+      rgb(var(--cream)) var(--stripe-w),
+      rgb(var(--cream)) calc(var(--stripe-w) * 2)
+    );
+  }
+  /* A softer wash of the stripes for content areas behind cards. */
+  .stripes-soft {
+    background-color: rgb(var(--bg));
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgb(var(--blush) / 0.35) 0,
+      rgb(var(--blush) / 0.35) var(--stripe-w),
+      transparent var(--stripe-w),
+      transparent calc(var(--stripe-w) * 2)
+    );
   }
 }
