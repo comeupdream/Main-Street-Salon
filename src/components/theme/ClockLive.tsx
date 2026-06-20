@@ -33,8 +33,6 @@ export function ClockLive({ className = "" }: { className?: string }) {
       const s = window.scrollY;
       const grow = Math.min(1, s / (vh * 1.3));
       el.style.transform = `scale(${(1 + grow * 0.18).toFixed(4)})`;
-      const fade = Math.max(0, Math.min(1, (s - vh * 0.85) / (vh * 0.4)));
-      el.style.opacity = (1 - fade).toFixed(3);
     };
     const onScroll = () => {
       if (ticking) return;

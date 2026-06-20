@@ -73,7 +73,7 @@ export default async function HomePage() {
           rotate={-16}
         />
 
-        <div className="container-page relative z-30 flex min-h-[90vh] flex-col items-center pb-24 pt-48 text-center sm:pt-[290px]">
+        <div className="container-page relative z-30 flex min-h-[90vh] flex-col items-center pb-24 pt-48 text-center sm:pt-[355px]">
           <p className="script text-4xl text-accent animate-fade-up sm:text-5xl">
             hello beautiful
           </p>

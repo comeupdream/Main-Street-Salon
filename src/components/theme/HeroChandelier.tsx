@@ -38,16 +38,15 @@ export default function HeroChandelier() {
     const vh = window.innerHeight || 800;
     const s = window.scrollY;
     if (m === "lift") {
-      // counter the scroll a bit so the net upward drift is ~0.55× scroll
-      const ty = s * 0.45;
-      el.style.transform = `translate(-50%, ${ty.toFixed(1)}px)`;
-      el.style.opacity = (1 - Math.min(1, s / (vh * 0.95))).toFixed(3);
+      // rises straight UP and out of frame; ~one screen of scroll to clear
+      const p = Math.min(1, s / (vh * 1.05));
+      el.style.transform = `translate(-50%, ${(-p * 60).toFixed(2)}vh)`;
+      el.style.opacity = (1 - Math.min(1, p * 1.2)).toFixed(3);
     } else {
-      const ty = s * 0.62; // floats up even more slowly
-      el.style.transform = `translate(-50%, ${ty.toFixed(1)}px)`;
-      el.style.opacity = (
-        1 - Math.max(0, Math.min(1, (s - vh * 0.35) / (vh * 0.95)))
-      ).toFixed(3);
+      // float: lifts up more slowly, fades late
+      const p = Math.min(1, s / (vh * 1.4));
+      el.style.transform = `translate(-50%, ${(-p * 30).toFixed(2)}vh)`;
+      el.style.opacity = (1 - Math.max(0, (p - 0.45) / 0.55)).toFixed(3);
     }
   }
 
@@ -104,7 +103,7 @@ export default function HeroChandelier() {
         className="pointer-events-none absolute left-1/2 top-0 z-20 will-change-transform"
         style={{ transform: "translateX(-50%)" }}
       >
-        <div className="relative aspect-[560/780] w-[clamp(190px,24vw,350px)] drop-shadow-[0_24px_30px_rgba(28,25,24,0.16)]">
+        <div className="relative aspect-[560/780] w-[clamp(160px,18vw,250px)] drop-shadow-[0_24px_30px_rgba(28,25,24,0.16)]">
           <Image
             src="/theme/cut/chandelier.png"
             alt=""
