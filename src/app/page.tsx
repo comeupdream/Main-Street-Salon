@@ -1,7 +1,8 @@
 import Link from "next/link";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
-import { Chandelier, Clock, Rose } from "@/components/theme/SalonDecor";
+import HeroChandelier from "@/components/theme/HeroChandelier";
+import { Clock, Rose } from "@/components/theme/SalonDecor";
 import { formatDuration, formatPrice } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 import { SALON, hoursForDisplay } from "@/lib/salon-config";
@@ -50,7 +51,7 @@ export default async function HomePage() {
         {/* soft cream wash keeps the headline legible over the stripes */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_45%,_rgba(251,246,242,0.92),_rgba(251,246,242,0.55)_55%,_transparent)]" />
 
-        <Chandelier />
+        <HeroChandelier />
         <Clock className="hidden sm:block" />
         <Rose
           variant="deep"

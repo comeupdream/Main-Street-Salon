@@ -30,3 +30,5 @@ npm-debug.log*
 
 # local screenshot helpers
 shot*.cjs
+dbg*.cjs
+measure*.cjs
