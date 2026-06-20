@@ -16,7 +16,7 @@ export function Chandelier({ className = "" }: { className?: string }) {
       aria-hidden
       className={`pointer-events-none absolute left-1/2 top-0 z-20 -translate-x-1/2 origin-top animate-sway ${className}`}
     >
-      <div className="relative aspect-[907/1001] w-[clamp(130px,20vw,280px)] drop-shadow-[0_18px_24px_rgba(28,25,24,0.12)]">
+      <div className="relative aspect-[560/780] w-[clamp(115px,14vw,195px)] drop-shadow-[0_22px_28px_rgba(28,25,24,0.14)]">
         <Image
           src="/theme/cut/chandelier.png"
           alt=""

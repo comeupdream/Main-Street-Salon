@@ -59,7 +59,7 @@ export default async function HomePage() {
           width="clamp(80px,9vw,140px)"
         />
 
-        <div className="container-page relative flex min-h-[94vh] flex-col items-center justify-center py-36 text-center">
+        <div className="container-page relative z-30 flex min-h-[90vh] flex-col items-center pb-24 pt-48 text-center sm:pt-[290px]">
           <p className="script text-4xl text-accent animate-fade-up sm:text-5xl">
             hello beautiful
           </p>
