@@ -34,9 +34,9 @@ export function Clock({ className = "" }: { className?: string }) {
   return (
     <div
       aria-hidden
-      className={`pointer-events-none absolute -left-3 top-0 z-20 animate-slide-in-left ${className}`}
+      className={`pointer-events-none absolute left-0 top-0 z-20 animate-slide-in-left ${className}`}
     >
-      <div className="relative aspect-[520/523] w-[clamp(124px,15vw,212px)] drop-shadow-[0_14px_20px_rgba(28,25,24,0.18)]">
+      <div className="relative aspect-[520/578] w-[clamp(124px,15vw,212px)] drop-shadow-[0_14px_20px_rgba(28,25,24,0.18)]">
         <Image
           src="/theme/cut/clock-bracket.png"
           alt=""
@@ -50,7 +50,16 @@ export function Clock({ className = "" }: { className?: string }) {
   );
 }
 
+/** Two peonies: the original magenta "winner", and a fuller "big" bloom. */
+type RoseKind = "winner" | "big";
+
+const ROSE: Record<RoseKind, { src: string; ratio: string }> = {
+  winner: { src: "/theme/cut/rose-br.png", ratio: "340/348" },
+  big: { src: "/theme/cut/rose-2.png", ratio: "340/340" },
+};
+
 type RoseProps = {
+  kind?: RoseKind;
   className?: string;
   width?: string;
   /** rotation in degrees, for natural variety */
@@ -59,29 +68,28 @@ type RoseProps = {
   flip?: boolean;
   /** z-index of the rose (default sits behind text at 10) */
   z?: number;
-  /** @deprecated retained for call-site compatibility; all roses use the magenta peony now */
-  variant?: "deep" | "blush";
 };
 
-// One winning peony (the magenta one), scattered at varied sizes / rotations.
-export function Rose({ className = "", width, rotate = 0, flip = false, z = 10 }: RoseProps) {
+export function Rose({
+  kind = "winner",
+  className = "",
+  width,
+  rotate = 0,
+  flip = false,
+  z = 10,
+}: RoseProps) {
+  const { src, ratio } = ROSE[kind];
   return (
     <div aria-hidden className={`pointer-events-none absolute ${className}`} style={{ zIndex: z }}>
       <div
         className="relative drop-shadow-[0_12px_18px_rgba(158,58,88,0.20)]"
         style={{
-          aspectRatio: "340/348",
+          aspectRatio: ratio,
           width: width ?? "clamp(90px,12vw,170px)",
           transform: `${flip ? "scaleX(-1) " : ""}rotate(${rotate}deg)`,
         }}
       >
-        <Image
-          src="/theme/cut/rose-br.png"
-          alt=""
-          fill
-          sizes="(max-width:768px) 28vw, 170px"
-          className="object-contain"
-        />
+        <Image src={src} alt="" fill sizes="(max-width:768px) 28vw, 170px" className="object-contain" />
       </div>
     </div>
   );
