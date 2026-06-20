@@ -1,11 +1,18 @@
 import Link from "next/link";
+import { Rose } from "@/components/theme/SalonDecor";
 import { SALON, hoursForDisplay } from "@/lib/salon-config";
 
 export default function SiteFooter() {
   const hours = hoursForDisplay();
   return (
-    <footer className="border-t border-line bg-surface">
-      <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="relative overflow-hidden border-t border-line bg-surface">
+      <Rose
+        variant="blush"
+        className="-right-8 -top-10 hidden sm:block"
+        width="clamp(80px,9vw,130px)"
+        rotate={18}
+      />
+      <div className="container-page relative z-20 grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <div className="font-serif text-2xl">{SALON.name}</div>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">

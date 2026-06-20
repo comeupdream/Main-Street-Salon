@@ -52,11 +52,23 @@ export default async function HomePage() {
 
         <Chandelier />
         <Clock className="hidden sm:block" />
-        <Rose variant="br" className="bottom-[5%] right-[3%] sm:right-[7%]" />
         <Rose
-          variant="tl"
-          className="left-[4%] top-[40%] hidden md:block"
-          width="clamp(80px,9vw,140px)"
+          variant="deep"
+          className="bottom-[3%] right-[1%] sm:right-[5%]"
+          width="clamp(112px,15vw,205px)"
+          rotate={-6}
+        />
+        <Rose
+          variant="blush"
+          className="left-[2%] top-[44%] hidden md:block"
+          width="clamp(78px,9vw,150px)"
+          rotate={9}
+        />
+        <Rose
+          variant="blush"
+          className="bottom-[7%] left-[6%] hidden lg:block"
+          width="clamp(64px,6vw,98px)"
+          rotate={-16}
         />
 
         <div className="container-page relative z-30 flex min-h-[90vh] flex-col items-center pb-24 pt-48 text-center sm:pt-[290px]">
@@ -85,8 +97,20 @@ export default async function HomePage() {
       </section>
 
       {/* ------------------------------------------------------------ Services */}
-      <section id="services" className="relative border-t border-line bg-bg">
-        <div className="container-page py-20 sm:py-28">
+      <section id="services" className="relative overflow-hidden border-t border-line bg-bg">
+        <Rose
+          variant="blush"
+          className="-right-6 top-12 sm:right-4"
+          width="clamp(64px,8vw,118px)"
+          rotate={14}
+        />
+        <Rose
+          variant="deep"
+          className="-left-8 bottom-24 hidden sm:block"
+          width="clamp(70px,9vw,128px)"
+          rotate={-12}
+        />
+        <div className="container-page relative z-20 py-20 sm:py-28">
           <div className="mx-auto max-w-2xl text-center">
             <p className="script text-3xl text-accent">the menu</p>
             <h2 className="mt-1 font-serif text-4xl sm:text-5xl">Services &amp; pricing</h2>
@@ -145,8 +169,20 @@ export default async function HomePage() {
       </section>
 
       {/* ---------------------------------------------------------- Experience */}
-      <section className="bg-ink text-cream">
-        <div className="container-page grid gap-12 py-20 sm:py-28 lg:grid-cols-3">
+      <section className="relative overflow-hidden bg-ink text-cream">
+        <Rose
+          variant="deep"
+          className="-right-8 -top-8 hidden sm:block"
+          width="clamp(96px,11vw,168px)"
+          rotate={22}
+        />
+        <Rose
+          variant="blush"
+          className="-bottom-10 left-[6%] hidden lg:block"
+          width="clamp(80px,8vw,120px)"
+          rotate={-18}
+        />
+        <div className="container-page relative z-20 grid gap-12 py-20 sm:py-28 lg:grid-cols-3">
           {[
             {
               t: "A real consultation",
@@ -172,7 +208,19 @@ export default async function HomePage() {
 
       {/* --------------------------------------------------------------- Visit */}
       <section id="visit" className="relative overflow-hidden stripes-soft">
-        <div className="container-page grid gap-12 py-20 sm:py-28 lg:grid-cols-2">
+        <Rose
+          variant="blush"
+          className="-right-6 top-[12%] hidden md:block"
+          width="clamp(80px,9vw,140px)"
+          rotate={-12}
+        />
+        <Rose
+          variant="deep"
+          className="-bottom-8 -left-6 hidden sm:block"
+          width="clamp(72px,8vw,120px)"
+          rotate={16}
+        />
+        <div className="container-page relative z-20 grid gap-12 py-20 sm:py-28 lg:grid-cols-2">
           <div>
             <p className="script text-3xl text-accent">come say hello</p>
             <h2 className="mt-1 font-serif text-4xl sm:text-5xl">Visit the salon</h2>

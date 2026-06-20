@@ -27,3 +27,6 @@ next-env.d.ts
 npm-debug.log*
 .vercel
 /coverage
+
+# local screenshot helpers
+shot*.cjs
