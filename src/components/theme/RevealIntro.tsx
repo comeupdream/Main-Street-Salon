@@ -129,20 +129,17 @@ export default function RevealIntro() {
         <div className="mt-2 flex flex-wrap items-start justify-center gap-3">
           <div className="-rotate-6">
             <img src="/intro/clock.jpg" className="mx-auto w-[170px] border-[7px] border-double border-gray-300 bg-white p-1" />
-            <div className="mx-auto inline-block border border-black bg-yellow-100 px-1.5 text-xs">our clock (it is rly nice)</div>
           </div>
           <div>
             <img src="/intro/chand2.jpg" className="mx-auto w-[160px] border-[7px] border-double border-gray-300 bg-white p-1" />
-            <div className="mx-auto inline-block border border-black bg-yellow-100 px-1.5 text-xs">FANCY light !!</div>
           </div>
           <div className="rotate-[5deg]">
             <img src="/intro/chand1.jpg" className="mx-auto w-[150px] border-[7px] border-double border-gray-300 bg-white p-1" />
-            <div className="mx-auto inline-block border border-black bg-yellow-100 px-1.5 text-xs">another light</div>
           </div>
         </div>
 
         <div className="mx-auto mt-3 inline-block rounded border-[5px] border-fuchsia-500 bg-yellow-100/90 px-5 py-2 text-xl" style={{ color: "#cc0066" }}>
-          ⭐⭐⭐⭐⭐ we are the BESTEST salon in the hole town !!! ⭐⭐⭐⭐⭐
+          ⭐⭐⭐⭐⭐ your neighborhood hair salon ⭐⭐⭐⭐⭐
         </div>
 
         {/* the trigger */}
