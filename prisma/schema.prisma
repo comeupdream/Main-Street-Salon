@@ -1,15 +1,15 @@
 // Main Street Salon — data model
 // Docs: https://pris.ly/d/prisma-schema
 //
-// Using SQLite for zero-config local dev. To deploy on serverless (Vercel etc.)
-// switch `provider` to "postgresql" and point DATABASE_URL at a hosted DB.
+// Postgres (works on Render, Vercel, Neon, Supabase, etc.). Point DATABASE_URL
+// at your hosted Postgres connection string.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

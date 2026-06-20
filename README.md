@@ -34,7 +34,7 @@ a minimum lead time, and prevents double-booking — all server-side.
 | Framework | Next.js 15 (App Router) + React 19      |
 | Language  | TypeScript                              |
 | Styling   | Tailwind CSS (design tokens = CSS vars) |
-| Database  | Prisma ORM + SQLite (swap to Postgres)  |
+| Database  | Prisma ORM + Postgres                   |
 
 ---
 
@@ -44,16 +44,20 @@ a minimum lead time, and prevents double-booking — all server-side.
 # 1. Install
 npm install
 
-# 2. Set up environment
+# 2. Set up environment (needs a Postgres DATABASE_URL — local or hosted)
 cp .env.example .env        # then edit the values (see below)
 
 # 3. Create + seed the database
-npm run db:push             # creates the SQLite tables
+npm run db:push             # creates the tables in Postgres
 npm run db:seed             # adds the services menu + demo appointments
 
 # 4. Run it
 npm run dev                 # http://localhost:3000
 ```
+
+> Local dev needs a Postgres database. Quickest options: a free
+> [Neon](https://neon.tech) dev branch, or local Postgres
+> (`postgresql://USER:PASS@localhost:5432/salon`).
 
 Then visit:
 
@@ -72,7 +76,7 @@ See `.env.example`. The three that matter:
 
 | Variable         | Purpose                                                         |
 | ---------------- | -------------------------------------------------------------- |
-| `DATABASE_URL`   | DB connection. Default = local SQLite file.                    |
+| `DATABASE_URL`   | Postgres connection string (Render/Neon/Supabase/local).       |
 | `ADMIN_PASSWORD` | Password for the `/admin` spreadsheet. **Change this.**        |
 | `SESSION_SECRET` | Signs the admin session cookie. Use a long random string.      |
 
@@ -115,19 +119,32 @@ there are copy-paste instructions in the file's header comment. Keep the scrim
 
 ---
 
-## Deploying (production notes)
+## Deploying
 
-SQLite is perfect for local dev but doesn't suit serverless hosts. For
-production (e.g. Vercel):
+This is a full-stack app (server-rendered pages + API + Postgres) — it needs a
+host that runs Node, **not** a static host.
 
-1. Provision a hosted Postgres DB (Neon, Supabase, RDS, …).
-2. In `prisma/schema.prisma` change `datasource db { provider = "postgresql" }`.
-3. Set `DATABASE_URL` to the Postgres URL, plus `ADMIN_PASSWORD` and
-   `SESSION_SECRET`.
-4. `npx prisma db push` (or set up migrations) and `npm run db:seed`.
-5. Build with `npm run build` and deploy.
+### Render (recommended)
 
-No other code changes are required — the app reads everything through Prisma.
+**Option A — Blueprint (one click):** Render dashboard → **New → Blueprint** →
+pick this repo. `render.yaml` creates the web service + a free Postgres, wires
+`DATABASE_URL`, generates `SESSION_SECRET`, and prompts for `ADMIN_PASSWORD`.
+
+**Option B — manual Web Service:**
+
+1. Create a **Postgres** instance on Render (free) and copy its *Internal
+   Database URL*.
+2. Create a **Web Service** from this repo:
+   - **Build command:** `npm install --include=dev && npm run build && npx prisma db push && npm run db:seed`
+   - **Start command:** `npm run start`
+3. Add env vars: `DATABASE_URL` (the Internal URL), `ADMIN_PASSWORD`,
+   `SESSION_SECRET`, `NODE_VERSION=22`.
+
+### Other hosts (Vercel, Fly, Railway, …)
+
+Same idea: point `DATABASE_URL` at a hosted Postgres, set `ADMIN_PASSWORD` +
+`SESSION_SECRET`, build with `npm run build`, and run `prisma db push` once to
+create the tables. No code changes needed — everything goes through Prisma.
 
 ---
 
