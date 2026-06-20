@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 /**
  * The hero chandelier with scroll-linked motion + a small on/off toggle.
@@ -22,6 +23,7 @@ const STORAGE_KEY = "salon-chandelier-mode";
 
 export default function HeroChandelier() {
   const [mode, setMode] = useState<Mode>("lift");
+  const [mounted, setMounted] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const modeRef = useRef<Mode>("lift");
 
@@ -45,6 +47,7 @@ export default function HeroChandelier() {
 
   // Load saved preference once on mount.
   useEffect(() => {
+    setMounted(true);
     try {
       const saved = localStorage.getItem(STORAGE_KEY) as Mode | null;
       if (saved && ORDER.includes(saved)) {
@@ -109,20 +112,25 @@ export default function HeroChandelier() {
         </div>
       </div>
 
-      {/* Small, unobtrusive mode toggle. */}
-      <button
-        type="button"
-        onClick={() => setMode((m) => ORDER[(ORDER.indexOf(m) + 1) % ORDER.length])}
-        aria-label={`Chandelier animation: ${LABEL[mode]}. Click to change.`}
-        className="fixed bottom-4 right-4 z-50 inline-flex items-center gap-2 rounded-full border border-line bg-surface/85 px-3.5 py-2 text-xs font-medium text-muted shadow-sm backdrop-blur transition-colors hover:border-accent/50 hover:text-ink"
-      >
-        <span aria-hidden className={mode === "off" ? "text-muted/40" : "text-accent"}>
-          ✦
-        </span>
-        <span>
-          Chandelier: <span className="text-ink">{LABEL[mode]}</span>
-        </span>
-      </button>
+      {/* Small, unobtrusive mode toggle — portaled to <body> so it floats
+          above every section (the hero's `isolate` would otherwise trap it). */}
+      {mounted &&
+        createPortal(
+          <button
+            type="button"
+            onClick={() => setMode((m) => ORDER[(ORDER.indexOf(m) + 1) % ORDER.length])}
+            aria-label={`Chandelier animation: ${LABEL[mode]}. Click to change.`}
+            className="fixed bottom-4 right-4 z-[60] inline-flex items-center gap-2 rounded-full border border-line bg-surface/90 px-3.5 py-2 text-xs font-medium text-muted shadow-md backdrop-blur transition-colors hover:border-accent/50 hover:text-ink"
+          >
+            <span aria-hidden className={mode === "off" ? "text-muted/40" : "text-accent"}>
+              ✦
+            </span>
+            <span>
+              Chandelier: <span className="text-ink">{LABEL[mode]}</span>
+            </span>
+          </button>,
+          document.body,
+        )}
     </>
   );
 }
