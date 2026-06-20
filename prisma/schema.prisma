@@ -1,0 +1,58 @@
+// Main Street Salon — data model
+// Docs: https://pris.ly/d/prisma-schema
+//
+// Using SQLite for zero-config local dev. To deploy on serverless (Vercel etc.)
+// switch `provider` to "postgresql" and point DATABASE_URL at a hosted DB.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// A service the salon offers (haircut, color, etc.). Seeded in prisma/seed.ts.
+model Service {
+  id              String        @id @default(cuid())
+  name            String
+  description     String        @default("")
+  durationMinutes Int           // how long the appointment blocks the calendar
+  priceCents      Int           // price in cents (e.g. 6500 = $65.00)
+  category        String        @default("Hair")
+  active          Boolean       @default(true)
+  sortOrder       Int           @default(0)
+  createdAt       DateTime      @default(now())
+  appointments    Appointment[]
+}
+
+/// A booked appointment. Times are stored in the salon's LOCAL time as plain
+/// strings (date "YYYY-MM-DD", time "HH:MM") to avoid timezone drift.
+model Appointment {
+  id              String            @id @default(cuid())
+  service         Service?          @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  serviceId       String?
+  serviceName     String            // snapshot of the service name at booking time
+  durationMinutes Int               // snapshot of duration so availability math is stable
+  priceCents      Int               @default(0)
+
+  date            String            // "YYYY-MM-DD" in salon local time
+  startTime       String            // "HH:MM" 24h start time
+
+  customerName    String
+  customerEmail   String            @default("")
+  customerPhone   String            @default("")
+  notes           String            @default("")
+
+  // One of: CONFIRMED | COMPLETED | CANCELLED | NO_SHOW
+  // (stored as text — SQLite has no native enum; validated in app code).
+  status          String            @default("CONFIRMED")
+  source          String            @default("online") // "online" | "admin"
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([date])
+  @@index([status])
+}
