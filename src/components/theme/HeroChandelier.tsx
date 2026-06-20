@@ -5,17 +5,16 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 /**
- * The hero chandelier with scroll-linked motion + a small on/off toggle.
+ * Hero chandelier with smooth scroll-linked motion + a small on/off toggle.
  *
- *  • "lift"  — as you scroll down it rises straight up and fades, like it's
- *              hoisted back to the ceiling, out of the way.
- *  • "float" — gentler parallax: drifts up slower than the page and fades late.
- *  • "off"   — hangs still (no scroll motion, no sway).
+ *  • "lift"  — drifts up and fades as you scroll (a gentle parallax: it moves
+ *              up slower than the page, so it lingers and "drifts" away rather
+ *              than snapping off — takes most of a screen of scrolling).
+ *  • "float" — even slower parallax; fades late.
+ *  • "off"   — hangs still.
  *
- * Motion is procedural: driven continuously by scroll position, updated in a
- * rAF-throttled scroll handler for smoothness. Choice persists in localStorage.
+ * No sway. rAF-throttled, transform/opacity only, so it stays buttery.
  */
-
 type Mode = "lift" | "float" | "off";
 const ORDER: Mode[] = ["lift", "float", "off"];
 const LABEL: Record<Mode, string> = { lift: "Lift up", float: "Float", off: "Off" };
@@ -27,25 +26,32 @@ export default function HeroChandelier() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const modeRef = useRef<Mode>("lift");
 
-  function apply() {
+  function render() {
     const el = wrapRef.current;
     if (!el) return;
-    const vh = window.innerHeight || 800;
-    const p = Math.min(1, Math.max(0, window.scrollY / (vh * 0.8)));
     const m = modeRef.current;
     if (m === "off") {
       el.style.transform = "translateX(-50%)";
       el.style.opacity = "1";
-    } else if (m === "lift") {
-      el.style.transform = `translate(-50%, ${(-p * 58).toFixed(2)}vh)`;
-      el.style.opacity = (1 - Math.min(1, p * 1.3)).toFixed(3);
+      return;
+    }
+    const vh = window.innerHeight || 800;
+    const s = window.scrollY;
+    if (m === "lift") {
+      // counter the scroll a bit so the net upward drift is ~0.55× scroll
+      const ty = s * 0.45;
+      el.style.transform = `translate(-50%, ${ty.toFixed(1)}px)`;
+      el.style.opacity = (1 - Math.min(1, s / (vh * 0.95))).toFixed(3);
     } else {
-      el.style.transform = `translate(-50%, ${(-p * 26).toFixed(2)}vh)`;
-      el.style.opacity = (1 - Math.max(0, (p - 0.5) / 0.5)).toFixed(3);
+      const ty = s * 0.62; // floats up even more slowly
+      el.style.transform = `translate(-50%, ${ty.toFixed(1)}px)`;
+      el.style.opacity = (
+        1 - Math.max(0, Math.min(1, (s - vh * 0.35) / (vh * 0.95)))
+      ).toFixed(3);
     }
   }
 
-  // Load saved preference once on mount.
+  // Load saved preference.
   useEffect(() => {
     setMounted(true);
     try {
@@ -59,7 +65,7 @@ export default function HeroChandelier() {
     }
   }, []);
 
-  // Persist + re-apply whenever the mode changes.
+  // Persist + re-apply on mode change.
   useEffect(() => {
     modeRef.current = mode;
     try {
@@ -67,26 +73,26 @@ export default function HeroChandelier() {
     } catch {
       /* ignore */
     }
-    apply();
+    render();
   }, [mode]);
 
-  // Scroll / resize listeners (rAF-throttled).
+  // rAF-throttled scroll / resize.
   useEffect(() => {
     let ticking = false;
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        apply();
+        render();
         ticking = false;
       });
     };
-    apply();
+    render();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", render);
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", render);
     };
   }, []);
 
@@ -98,22 +104,19 @@ export default function HeroChandelier() {
         className="pointer-events-none absolute left-1/2 top-0 z-20 will-change-transform"
         style={{ transform: "translateX(-50%)" }}
       >
-        <div className={`origin-top ${mode === "off" ? "" : "animate-sway"}`}>
-          <div className="relative aspect-[560/780] w-[clamp(115px,14vw,195px)] drop-shadow-[0_22px_28px_rgba(28,25,24,0.14)]">
-            <Image
-              src="/theme/cut/chandelier.png"
-              alt=""
-              fill
-              priority
-              sizes="(max-width:768px) 40vw, 200px"
-              className="object-contain"
-            />
-          </div>
+        <div className="relative aspect-[560/780] w-[clamp(190px,24vw,350px)] drop-shadow-[0_24px_30px_rgba(28,25,24,0.16)]">
+          <Image
+            src="/theme/cut/chandelier.png"
+            alt=""
+            fill
+            priority
+            sizes="(max-width:768px) 48vw, 350px"
+            className="object-contain"
+          />
         </div>
       </div>
 
-      {/* Small, unobtrusive mode toggle — portaled to <body> so it floats
-          above every section (the hero's `isolate` would otherwise trap it). */}
+      {/* Mode toggle — portaled to <body> so it floats above every section. */}
       {mounted &&
         createPortal(
           <button

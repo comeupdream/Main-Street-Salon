@@ -1,15 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
- * The station clock with procedural hands that show the real, current time.
- * The cut-out (clock-nohands.png) keeps the original face, numerals and text —
- * only the painted hands were removed; we draw live ones over the face.
- *
- * Face geometry below is in the cut-out's intrinsic 520×578 coordinate space,
- * which the SVG viewBox shares, so the hands sit exactly on the pivot.
+ * Station clock with live hands. Pinned to the left of the viewport (fixed) so
+ * it stays put through the hero downscroll, grows a touch as you scroll, then
+ * fades out before it would cover the menu. Live hands track the real time.
  */
 const CX = 335;
 const CY = 397;
@@ -17,11 +14,43 @@ const R = 148;
 
 export function ClockLive({ className = "" }: { className?: string }) {
   const [now, setNow] = useState<Date | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
+  // Live time — re-render hands every second.
   useEffect(() => {
     setNow(new Date());
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
+  }, []);
+
+  // Scroll-linked grow + fade (rAF-throttled).
+  useEffect(() => {
+    let ticking = false;
+    const render = () => {
+      const el = ref.current;
+      if (!el) return;
+      const vh = window.innerHeight || 800;
+      const s = window.scrollY;
+      const grow = Math.min(1, s / (vh * 1.3));
+      el.style.transform = `scale(${(1 + grow * 0.18).toFixed(4)})`;
+      const fade = Math.max(0, Math.min(1, (s - vh * 0.85) / (vh * 0.4)));
+      el.style.opacity = (1 - fade).toFixed(3);
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        render();
+        ticking = false;
+      });
+    };
+    render();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", render);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", render);
+    };
   }, []);
 
   let hands = null;
@@ -56,22 +85,21 @@ export function ClockLive({ className = "" }: { className?: string }) {
   }
 
   return (
-    <div
-      aria-hidden
-      className={`pointer-events-none absolute left-0 top-[280px] z-20 animate-slide-in-left ${className}`}
-    >
-      <div className="relative aspect-[520/578] w-[clamp(124px,15vw,212px)] drop-shadow-[0_14px_20px_rgba(28,25,24,0.18)]">
-        <Image
-          src="/theme/cut/clock-nohands.png"
-          alt=""
-          fill
-          priority
-          sizes="(max-width:768px) 30vw, 210px"
-          className="object-contain"
-        />
-        <svg viewBox="0 0 520 578" className="absolute inset-0 h-full w-full">
-          {hands}
-        </svg>
+    <div aria-hidden className={`pointer-events-none fixed left-0 top-[44%] z-40 ${className}`}>
+      <div ref={ref} className="origin-top-left will-change-transform">
+        <div className="relative aspect-[520/578] w-[clamp(150px,16vw,225px)] drop-shadow-[0_16px_24px_rgba(28,25,24,0.22)]">
+          <Image
+            src="/theme/cut/clock-nohands.png"
+            alt=""
+            fill
+            priority
+            sizes="(max-width:768px) 32vw, 225px"
+            className="object-contain"
+          />
+          <svg viewBox="0 0 520 578" className="absolute inset-0 h-full w-full">
+            {hands}
+          </svg>
+        </div>
       </div>
     </div>
   );

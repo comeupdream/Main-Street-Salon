@@ -48,6 +48,7 @@ export default async function HomePage() {
     <>
       <RevealIntro />
       <SiteHeader />
+      <ClockLive className="hidden sm:block" />
 
       {/* ---------------------------------------------------------------- Hero */}
       <section className="relative isolate overflow-hidden stripes">
@@ -55,7 +56,6 @@ export default async function HomePage() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_45%,_rgba(251,246,242,0.92),_rgba(251,246,242,0.55)_55%,_transparent)]" />
 
         <HeroChandelier />
-        <ClockLive className="hidden sm:block" />
         <Rose
           className="bottom-[3%] right-[1%] sm:right-[5%]"
           width="clamp(120px,16vw,215px)"
