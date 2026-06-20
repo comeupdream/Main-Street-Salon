@@ -34,7 +34,7 @@ export function Clock({ className = "" }: { className?: string }) {
   return (
     <div
       aria-hidden
-      className={`pointer-events-none absolute left-0 top-0 z-20 animate-slide-in-left ${className}`}
+      className={`pointer-events-none absolute left-0 top-[280px] z-20 animate-slide-in-left ${className}`}
     >
       <div className="relative aspect-[520/578] w-[clamp(124px,15vw,212px)] drop-shadow-[0_14px_20px_rgba(28,25,24,0.18)]">
         <Image
@@ -50,16 +50,7 @@ export function Clock({ className = "" }: { className?: string }) {
   );
 }
 
-/** Two peonies: the original magenta "winner", and a fuller "big" bloom. */
-type RoseKind = "winner" | "big";
-
-const ROSE: Record<RoseKind, { src: string; ratio: string }> = {
-  winner: { src: "/theme/cut/rose-br.png", ratio: "340/348" },
-  big: { src: "/theme/cut/rose-2.png", ratio: "340/340" },
-};
-
 type RoseProps = {
-  kind?: RoseKind;
   className?: string;
   width?: string;
   /** rotation in degrees, for natural variety */
@@ -70,26 +61,19 @@ type RoseProps = {
   z?: number;
 };
 
-export function Rose({
-  kind = "winner",
-  className = "",
-  width,
-  rotate = 0,
-  flip = false,
-  z = 10,
-}: RoseProps) {
-  const { src, ratio } = ROSE[kind];
+// Every rose uses the new, cleaner, more symmetrical peony.
+export function Rose({ className = "", width, rotate = 0, flip = false, z = 10 }: RoseProps) {
   return (
     <div aria-hidden className={`pointer-events-none absolute ${className}`} style={{ zIndex: z }}>
       <div
         className="relative drop-shadow-[0_12px_18px_rgba(158,58,88,0.20)]"
         style={{
-          aspectRatio: ratio,
+          aspectRatio: "340/340",
           width: width ?? "clamp(90px,12vw,170px)",
           transform: `${flip ? "scaleX(-1) " : ""}rotate(${rotate}deg)`,
         }}
       >
-        <Image src={src} alt="" fill sizes="(max-width:768px) 28vw, 170px" className="object-contain" />
+        <Image src="/theme/cut/rose-2.png" alt="" fill sizes="(max-width:768px) 28vw, 170px" className="object-contain" />
       </div>
     </div>
   );

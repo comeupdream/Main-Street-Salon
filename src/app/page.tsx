@@ -54,20 +54,17 @@ export default async function HomePage() {
         <HeroChandelier />
         <Clock className="hidden sm:block" />
         <Rose
-          kind="big"
           className="bottom-[3%] right-[1%] sm:right-[5%]"
           width="clamp(120px,16vw,215px)"
           rotate={-6}
         />
         <Rose
-          kind="winner"
-          className="left-[2%] top-[44%] hidden md:block"
+          className="right-[4%] top-[31%] hidden md:block"
           width="clamp(78px,9vw,150px)"
           rotate={9}
           flip
         />
         <Rose
-          kind="winner"
           className="bottom-[7%] left-[6%] hidden lg:block"
           width="clamp(64px,6vw,98px)"
           rotate={-16}
@@ -101,14 +98,12 @@ export default async function HomePage() {
       {/* ------------------------------------------------------------ Services */}
       <section id="services" className="relative overflow-hidden border-t border-line bg-bg">
         <Rose
-          kind="big"
           className="-right-6 top-12 sm:right-4"
           width="clamp(66px,8vw,122px)"
           rotate={14}
           flip
         />
         <Rose
-          kind="winner"
           className="-left-8 bottom-24 hidden sm:block"
           width="clamp(70px,9vw,128px)"
           rotate={-12}
@@ -174,13 +169,11 @@ export default async function HomePage() {
       {/* ---------------------------------------------------------- Experience */}
       <section className="relative overflow-hidden bg-ink text-cream">
         <Rose
-          kind="big"
           className="-right-8 -top-8 hidden sm:block"
           width="clamp(100px,11vw,172px)"
           rotate={22}
         />
         <Rose
-          kind="winner"
           className="-bottom-10 left-[6%] hidden lg:block"
           width="clamp(80px,8vw,120px)"
           rotate={-18}
@@ -212,14 +205,12 @@ export default async function HomePage() {
       {/* --------------------------------------------------------------- Visit */}
       <section id="visit" className="relative overflow-hidden stripes-soft">
         <Rose
-          kind="big"
           className="-right-6 top-[12%] hidden md:block"
           width="clamp(84px,9vw,144px)"
           rotate={-12}
           flip
         />
         <Rose
-          kind="winner"
           className="-bottom-8 -left-6 hidden sm:block"
           width="clamp(72px,8vw,120px)"
           rotate={16}

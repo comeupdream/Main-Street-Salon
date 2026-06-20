@@ -7,7 +7,6 @@ export default function SiteFooter() {
   return (
     <footer className="relative overflow-hidden border-t border-line bg-surface">
       <Rose
-        kind="winner"
         className="-right-8 -top-10 hidden sm:block"
         width="clamp(80px,9vw,130px)"
         rotate={18}
