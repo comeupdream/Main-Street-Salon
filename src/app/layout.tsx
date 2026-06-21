@@ -27,11 +27,35 @@ const script = Parisienne({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://mainstreetsalon.studio",
+  ),
   title: {
     default: `${SALON.name} — Hair Salon`,
     template: `%s · ${SALON.name}`,
   },
   description: SALON.tagline,
+  openGraph: {
+    type: "website",
+    siteName: SALON.name,
+    title: `${SALON.name} — Hair Salon`,
+    description: SALON.tagline,
+    url: "/",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: `${SALON.name} — ${SALON.tagline}`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SALON.name} — Hair Salon`,
+    description: SALON.tagline,
+    images: ["/og.png"],
+  },
 };
 
 export const viewport: Viewport = {
