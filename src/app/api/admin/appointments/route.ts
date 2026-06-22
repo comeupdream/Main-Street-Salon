@@ -60,6 +60,9 @@ export async function POST(req: Request) {
     notes: body.notes ? String(body.notes) : "",
     source: "admin",
     bypassWindowChecks: true,
+    // Staff booked this, so send the client their confirmation but skip the
+    // owner self-alert.
+    notify: { client: true, owner: false },
   });
 
   if (!result.ok) {

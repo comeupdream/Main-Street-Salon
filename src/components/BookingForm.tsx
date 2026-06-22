@@ -107,8 +107,10 @@ export default function BookingForm({
     setStep(2);
   }
 
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
+
   async function submit() {
-    if (!service || !date || !time || !form.name.trim()) return;
+    if (!service || !date || !time || !form.name.trim() || !emailOk) return;
     setSubmitting(true);
     setSubmitError("");
     try {
@@ -193,7 +195,7 @@ export default function BookingForm({
   }
 
   const canContinueDate = Boolean(date && time);
-  const canSubmit = Boolean(date && time && form.name.trim()) && !submitting;
+  const canSubmit = Boolean(date && time && form.name.trim() && emailOk) && !submitting;
 
   return (
     <div className="card overflow-hidden">
@@ -411,7 +413,7 @@ export default function BookingForm({
               </div>
               <div>
                 <label className="field-label" htmlFor="email">
-                  Email
+                  Email <span className="text-accent">*</span>
                 </label>
                 <input
                   id="email"
@@ -421,7 +423,15 @@ export default function BookingForm({
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   placeholder="you@email.com"
                   autoComplete="email"
+                  required
+                  aria-invalid={form.email.length > 0 && !emailOk}
                 />
+                {form.email.length > 0 && !emailOk && (
+                  <p className="mt-1 text-xs text-accent">Enter a valid email address.</p>
+                )}
+                <p className="mt-1 text-xs text-muted">
+                  We&apos;ll send your confirmation and a reminder here.
+                </p>
               </div>
               <div className="sm:col-span-2">
                 <label className="field-label" htmlFor="notes">

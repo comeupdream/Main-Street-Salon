@@ -1,5 +1,7 @@
 import { BLOCKING_STATUSES } from "./appointment-status";
 import { BusyBlock, hasConflict, isWithinHours } from "./availability";
+import { ownerEmail, sendEmail } from "./email";
+import { clientBookingConfirmation, ownerNewBooking, type EmailAppointment } from "./email-templates";
 import { prisma } from "./prisma";
 import { SALON, salonTodayISO } from "./salon-config";
 import { addDaysISO, isValidDateISO, isValidTime } from "./time";
@@ -23,6 +25,8 @@ export type CreateBookingInput = {
   source?: "online" | "admin";
   /** Admin bookings may bypass the lead-time / horizon limits. */
   bypassWindowChecks?: boolean;
+  /** Which confirmation emails to fire. Defaults to both. */
+  notify?: { client?: boolean; owner?: boolean };
 };
 
 export type CreateBookingResult =
@@ -92,5 +96,36 @@ export async function createBooking(
     },
   });
 
+  await sendBookingEmails(appt, input.notify);
+
   return { ok: true, appointmentId: appt.id };
+}
+
+/**
+ * Fire the confirmation (client) + alert (owner) emails for a new booking.
+ * Failures are swallowed inside sendEmail, so this never breaks a booking.
+ */
+async function sendBookingEmails(
+  appt: EmailAppointment,
+  notify: CreateBookingInput["notify"],
+): Promise<void> {
+  const wantClient = notify?.client ?? true;
+  const wantOwner = notify?.owner ?? true;
+
+  const tasks: Promise<unknown>[] = [];
+  if (wantClient && appt.customerEmail) {
+    tasks.push(
+      sendEmail({ to: appt.customerEmail, replyTo: ownerEmail(), ...clientBookingConfirmation(appt) }),
+    );
+  }
+  if (wantOwner) {
+    tasks.push(
+      sendEmail({
+        to: ownerEmail(),
+        replyTo: appt.customerEmail || undefined,
+        ...ownerNewBooking(appt),
+      }),
+    );
+  }
+  await Promise.allSettled(tasks);
 }

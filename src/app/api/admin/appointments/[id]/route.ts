@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
-import { isAppointmentStatus } from "@/lib/appointment-status";
+import { type AppointmentStatus, isAppointmentStatus } from "@/lib/appointment-status";
 import { isAdminAuthed } from "@/lib/auth";
+import { ownerEmail, sendEmail } from "@/lib/email";
+import { clientCancellation } from "@/lib/email-templates";
 import { prisma } from "@/lib/prisma";
 import { isValidDateISO, isValidTime } from "@/lib/time";
 
@@ -17,11 +19,13 @@ export async function PATCH(req: Request, ctx: Ctx) {
 
   const data: Prisma.AppointmentUpdateInput = {};
 
+  let newStatus: AppointmentStatus | undefined;
   if (body.status !== undefined) {
     if (!isAppointmentStatus(body.status)) {
       return NextResponse.json({ error: "Invalid status." }, { status: 400 });
     }
-    data.status = body.status;
+    newStatus = body.status;
+    data.status = newStatus;
   }
   if (body.customerName !== undefined) data.customerName = String(body.customerName);
   if (body.customerEmail !== undefined) data.customerEmail = String(body.customerEmail);
@@ -42,8 +46,31 @@ export async function PATCH(req: Request, ctx: Ctx) {
     return NextResponse.json({ error: "Nothing to update." }, { status: 400 });
   }
 
+  // To email the client only on a real transition into CANCELLED, check the
+  // prior status before updating.
+  let wasCancelled = false;
+  if (newStatus === "CANCELLED") {
+    const existing = await prisma.appointment.findUnique({
+      where: { id },
+      select: { status: true },
+    });
+    if (!existing) {
+      return NextResponse.json({ error: "Appointment not found." }, { status: 404 });
+    }
+    wasCancelled = existing.status === "CANCELLED";
+  }
+
   try {
     const appointment = await prisma.appointment.update({ where: { id }, data });
+
+    if (newStatus === "CANCELLED" && !wasCancelled && appointment.customerEmail) {
+      await sendEmail({
+        to: appointment.customerEmail,
+        replyTo: ownerEmail(),
+        ...clientCancellation(appointment),
+      });
+    }
+
     return NextResponse.json({ ok: true, appointment });
   } catch {
     return NextResponse.json({ error: "Appointment not found." }, { status: 404 });

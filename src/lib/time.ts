@@ -32,6 +32,18 @@ export function isValidTime(s: string): boolean {
   return h >= 0 && h < 24 && m >= 0 && m < 60;
 }
 
+/**
+ * A salon-local date+time collapsed to a single minute count on a fixed
+ * (UTC-based) arithmetic scale. The value is NOT a real instant — it's only
+ * meaningful when comparing two such values (both built the same way), e.g.
+ * "how many minutes until this appointment starts" independent of server TZ.
+ */
+export function localStampMinutes(dateISO: string, hhmm: string): number {
+  const [y, mo, d] = dateISO.split("-").map(Number);
+  const [h, m] = hhmm.split(":").map(Number);
+  return Math.floor(Date.UTC(y, mo - 1, d, h, m) / 60000);
+}
+
 /** Add N days to an ISO date string, returning a new ISO date string. */
 export function addDaysISO(dateISO: string, days: number): string {
   const [y, mo, d] = dateISO.split("-").map(Number);

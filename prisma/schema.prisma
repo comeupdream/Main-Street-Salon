@@ -50,6 +50,9 @@ model Appointment {
   status          String            @default("CONFIRMED")
   source          String            @default("online") // "online" | "admin"
 
+  // When the 24h reminder email was sent (null = not yet). De-dupes reminders.
+  reminderSentAt  DateTime?
+
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
 
