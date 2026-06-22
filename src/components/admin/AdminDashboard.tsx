@@ -13,6 +13,7 @@ import {
   formatPrice,
   formatTime12,
 } from "@/lib/format";
+import { AdminCalendar } from "@/components/admin/AdminCalendar";
 
 export type AdminService = {
   id: string;
@@ -72,6 +73,7 @@ export default function AdminDashboard({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [addOpen, setAddOpen] = useState(false);
+  const [view, setView] = useState<"table" | "calendar">("table");
 
   const fetchList = useCallback(async () => {
     setLoading(true);
@@ -221,6 +223,20 @@ export default function AdminDashboard({
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <div className="flex rounded-full border border-line p-0.5">
+              <button
+                onClick={() => setView("table")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${view === "table" ? "bg-accent text-white" : "text-muted hover:text-ink"}`}
+              >
+                Spreadsheet
+              </button>
+              <button
+                onClick={() => setView("calendar")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${view === "calendar" ? "bg-accent text-white" : "text-muted hover:text-ink"}`}
+              >
+                Calendar
+              </button>
+            </div>
             <button onClick={() => setAddOpen(true)} className="btn-accent !px-4 !py-2 text-sm">
               + New appointment
             </button>
@@ -235,6 +251,10 @@ export default function AdminDashboard({
       </header>
 
       <main className="mx-auto max-w-[1400px] px-5 py-6">
+        {view === "calendar" ? (
+          <AdminCalendar today={today} />
+        ) : (
+          <>
         {/* Summary */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="In view" value={String(stats.total)} />
@@ -427,6 +447,8 @@ export default function AdminDashboard({
             </table>
           </div>
         </div>
+          </>
+        )}
       </main>
 
       {addOpen && (
