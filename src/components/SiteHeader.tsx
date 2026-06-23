@@ -30,6 +30,9 @@ export default function SiteHeader({
           <Link href="/#services" className="transition-colors hover:text-accent">
             Services
           </Link>
+          <Link href="/portfolio" className="transition-colors hover:text-accent">
+            Portfolio
+          </Link>
           <Link href="/#visit" className="transition-colors hover:text-accent">
             Visit
           </Link>

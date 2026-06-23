@@ -14,6 +14,7 @@ import {
   formatTime12,
 } from "@/lib/format";
 import { AdminCalendar } from "@/components/admin/AdminCalendar";
+import { AdminPortfolio } from "@/components/admin/AdminPortfolio";
 
 export type AdminService = {
   id: string;
@@ -73,7 +74,7 @@ export default function AdminDashboard({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [addOpen, setAddOpen] = useState(false);
-  const [view, setView] = useState<"table" | "calendar">("table");
+  const [view, setView] = useState<"table" | "calendar" | "portfolio">("table");
 
   const fetchList = useCallback(async () => {
     setLoading(true);
@@ -212,14 +213,18 @@ export default function AdminDashboard({
       <header className="sticky top-0 z-20 border-b border-line bg-bg/90 backdrop-blur">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-3 px-5 py-4">
           <div>
-            <h1 className="font-serif text-2xl leading-none">Appointment book</h1>
+            <h1 className="font-serif text-2xl leading-none">
+              {view === "portfolio" ? "Portfolio" : "Appointment book"}
+            </h1>
             <p className="mt-1 text-xs text-muted">
-              {new Date(today + "T00:00:00").toLocaleDateString("en-US", {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}
+              {view === "portfolio"
+                ? "Photos shown on the public Portfolio page"
+                : new Date(today + "T00:00:00").toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -236,13 +241,23 @@ export default function AdminDashboard({
               >
                 Calendar
               </button>
+              <button
+                onClick={() => setView("portfolio")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${view === "portfolio" ? "bg-accent text-white" : "text-muted hover:text-ink"}`}
+              >
+                Portfolio
+              </button>
             </div>
-            <button onClick={() => setAddOpen(true)} className="btn-accent !px-4 !py-2 text-sm">
-              + New appointment
-            </button>
-            <button onClick={exportCsv} className="btn-ghost !px-4 !py-2 text-sm">
-              Export CSV
-            </button>
+            {view !== "portfolio" && (
+              <>
+                <button onClick={() => setAddOpen(true)} className="btn-accent !px-4 !py-2 text-sm">
+                  + New appointment
+                </button>
+                <button onClick={exportCsv} className="btn-ghost !px-4 !py-2 text-sm">
+                  Export CSV
+                </button>
+              </>
+            )}
             <button onClick={signOut} className="btn-ghost !px-4 !py-2 text-sm">
               Sign out
             </button>
@@ -251,7 +266,9 @@ export default function AdminDashboard({
       </header>
 
       <main className="mx-auto max-w-[1400px] px-5 py-6">
-        {view === "calendar" ? (
+        {view === "portfolio" ? (
+          <AdminPortfolio />
+        ) : view === "calendar" ? (
           <AdminCalendar today={today} />
         ) : (
           <>

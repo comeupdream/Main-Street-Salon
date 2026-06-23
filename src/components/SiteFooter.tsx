@@ -60,9 +60,14 @@ export default function SiteFooter() {
           <span>
             © {new Date().getFullYear()} {SALON.name}. All rights reserved.
           </span>
-          <Link href="/admin" className="hover:text-accent">
-            Staff sign-in
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/portfolio" className="hover:text-accent">
+              Portfolio
+            </Link>
+            <Link href="/admin" className="hover:text-accent">
+              Staff sign-in
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

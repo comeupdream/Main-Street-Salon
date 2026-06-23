@@ -59,3 +59,21 @@ model Appointment {
   @@index([date])
   @@index([status])
 }
+
+/// A photo for the public portfolio gallery. The image bytes live in the DB so
+/// they survive on hosts with an ephemeral filesystem (e.g. Render) without any
+/// external object storage. Images are resized client-side before upload.
+model PortfolioImage {
+  id        String   @id @default(cuid())
+  caption   String   @default("")
+  alt       String   @default("")
+  data      Bytes // the (resized) image bytes
+  mimeType  String   @default("image/jpeg")
+  width     Int      @default(0)
+  height    Int      @default(0)
+  sortOrder Int      @default(0) // lower sorts first; ties break on createdAt
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([published, sortOrder])
+}
