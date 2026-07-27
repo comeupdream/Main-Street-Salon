@@ -13,8 +13,8 @@ export const SALON = {
   tagline: "Modern cuts, lived-in color, and a chair that feels like home.",
   phone: "(555) 248-1090",
   email: "hello@mainstreetsalon.com",
-  address: "118 Main Street, Suite 2",
-  cityLine: "Northampton, MA 01060",
+  address: "302 W Spotswood Trail",
+  cityLine: "Elkton, VA 22827",
   instagram: "@mainstreetsalon",
 
   /** IANA timezone the salon operates in. Drives "today" / past-slot logic. */
