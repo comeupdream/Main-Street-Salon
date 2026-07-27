@@ -10,7 +10,7 @@ const SERVICES = [
     name: "Women's Haircut & Style",
     description: "Consultation, shampoo, precision cut, and a finished blow-dry.",
     durationMinutes: 60,
-    priceCents: 6500,
+    priceCents: 3000,
     category: "Haircuts",
   },
   {
@@ -18,7 +18,7 @@ const SERVICES = [
     name: "Men's Haircut",
     description: "Clipper or scissor cut tailored to you, with a hot-towel finish.",
     durationMinutes: 45,
-    priceCents: 4000,
+    priceCents: 1500,
     category: "Haircuts",
   },
   {
@@ -26,7 +26,7 @@ const SERVICES = [
     name: "Kids' Cut (12 & under)",
     description: "A patient, friendly cut for our youngest guests.",
     durationMinutes: 30,
-    priceCents: 2800,
+    priceCents: 1200,
     category: "Haircuts",
   },
   {
@@ -34,7 +34,7 @@ const SERVICES = [
     name: "Blowout & Style",
     description: "Shampoo and a polished blow-dry — smooth, wavy, or full of body.",
     durationMinutes: 45,
-    priceCents: 4500,
+    priceCents: 2500,
     category: "Styling",
   },
   {
@@ -42,7 +42,7 @@ const SERVICES = [
     name: "Special-Occasion Updo",
     description: "An elegant upstyle for weddings, galas, and big nights out.",
     durationMinutes: 60,
-    priceCents: 8000,
+    priceCents: 5500,
     category: "Styling",
   },
   {
@@ -50,7 +50,7 @@ const SERVICES = [
     name: "Root Touch-Up Color",
     description: "Seamless regrowth coverage to refresh your existing color.",
     durationMinutes: 90,
-    priceCents: 8500,
+    priceCents: 6000,
     category: "Color",
   },
   {
@@ -58,15 +58,23 @@ const SERVICES = [
     name: "All-Over Color",
     description: "A single, even tone from root to ends.",
     durationMinutes: 120,
-    priceCents: 11000,
+    priceCents: 7500,
+    category: "Color",
+  },
+  {
+    id: "partial-highlights",
+    name: "Partial Highlights",
+    description: "Foils through the top and crown for brightness where it shows most.",
+    durationMinutes: 120,
+    priceCents: 8000,
     category: "Color",
   },
   {
     id: "highlights",
     name: "Full Highlights",
-    description: "Brightness and dimension woven throughout.",
+    description: "A full head of foils for brightness and dimension throughout.",
     durationMinutes: 150,
-    priceCents: 16000,
+    priceCents: 10000,
     category: "Color",
   },
   {
@@ -74,7 +82,7 @@ const SERVICES = [
     name: "Balayage / Lived-In Color",
     description: "Hand-painted, grown-out-gracefully color with a natural finish.",
     durationMinutes: 180,
-    priceCents: 18500,
+    priceCents: 13000,
     category: "Color",
   },
   {
@@ -82,7 +90,7 @@ const SERVICES = [
     name: "Gloss & Toner",
     description: "Add shine and perfect your tone between color appointments.",
     durationMinutes: 45,
-    priceCents: 5500,
+    priceCents: 3000,
     category: "Color",
   },
   {
@@ -90,7 +98,7 @@ const SERVICES = [
     name: "Bond-Builder Treatment",
     description: "Repair and strengthen with an in-chair bonding treatment.",
     durationMinutes: 30,
-    priceCents: 3500,
+    priceCents: 2000,
     category: "Treatments",
   },
   {
@@ -98,7 +106,7 @@ const SERVICES = [
     name: "Keratin Smoothing",
     description: "Tame frizz and cut styling time with a smoothing treatment.",
     durationMinutes: 150,
-    priceCents: 24000,
+    priceCents: 15000,
     category: "Treatments",
   },
 ];
