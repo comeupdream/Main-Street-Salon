@@ -8,14 +8,14 @@
 export type DayHours = { open: string; close: string } | null;
 
 export const SALON = {
-  name: "Main Street Salon",
-  shortName: "Main Street",
+  name: "Infinite Parallel Salon",
+  shortName: "Infinite Parallel",
   tagline: "Modern cuts, lived-in color, and a chair that feels like home.",
   phone: "(555) 314-1592",
-  email: "hello@mainstreetsalon.studio",
+  email: "hello@infiniteparallel.salon",
   address: "12 Mnemonic Lane",
   cityLine: "Parallel City, CA 00000",
-  instagram: "@mainstreetsalon",
+  instagram: "@infiniteparallelsalon",
 
   /** IANA timezone the salon operates in. Drives "today" / past-slot logic. */
   timezone: "America/New_York",

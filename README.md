@@ -1,4 +1,4 @@
-# Main Street Salon
+# Infinite Parallel Salon
 
 A complete hair-salon website with **online booking** and a password-protected
 **admin appointment book** (a live spreadsheet of every appointment).

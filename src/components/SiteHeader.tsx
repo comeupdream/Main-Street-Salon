@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PaletteToggle from "@/components/theme/PaletteToggle";
 import { SALON } from "@/lib/salon-config";
 
 /**
@@ -44,9 +45,12 @@ export default function SiteHeader({
           </a>
         </nav>
 
-        <Link href="/book" className="btn-accent !px-5 !py-2.5">
-          Book now
-        </Link>
+        <div className="flex items-center gap-2.5">
+          <PaletteToggle />
+          <Link href="/book" className="btn-accent !px-5 !py-2.5">
+            Book now
+          </Link>
+        </div>
       </div>
     </header>
   );

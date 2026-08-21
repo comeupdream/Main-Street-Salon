@@ -66,7 +66,7 @@ export function Rose({ className = "", width, rotate = 0, flip = false, z = 10 }
   return (
     <div aria-hidden className={`pointer-events-none absolute ${className}`} style={{ zIndex: z }}>
       <div
-        className="relative drop-shadow-[0_12px_18px_rgba(158,58,88,0.20)]"
+        className="salon-rose relative drop-shadow-[0_12px_18px_rgba(158,58,88,0.20)]"
         style={{
           aspectRatio: "340/340",
           width: width ?? "clamp(90px,12vw,170px)",

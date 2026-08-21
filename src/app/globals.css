@@ -3,10 +3,13 @@
 @tailwind utilities;
 
 /* ===========================================================================
-   Main Street Salon — brand tokens, themed to the salon's real interior:
-   pink + white striped wallpaper, pink peonies, a crystal chandelier, an
-   antique station clock, and a black "hello beautiful" script.
-   Re-skin by editing these CSS variables.
+   Infinite Parallel Salon — brand tokens: pink + white striped wallpaper,
+   peonies, a crystal chandelier, an antique station clock, and a
+   "hello gorgeous" script. Re-skin by editing these CSS variables.
+
+   Two palettes ship: the default blush/rose, and an "ice" palette
+   (light blue + black) applied via  <html data-palette="ice">  — toggled
+   from the header and persisted in localStorage ("salon-palette").
    =========================================================================== */
 :root {
   --bg: 250 245 241; /* warm cream            #FAF5F1 */
@@ -22,6 +25,28 @@
   --gold: 194 160 94; /* chandelier gold       #C2A05E */
 
   --stripe-w: 5.4vw; /* one stripe's width (pink or white) */
+}
+
+/* ------------------------------------------------------------------------ */
+/* "Ice" palette — light blue + black.                                      */
+html[data-palette="ice"] {
+  --bg: 246 249 252; /* ice white              #F6F9FC */
+  --surface: 255 255 255;
+  --ink: 17 19 24; /* black                    #111318 */
+  --muted: 106 117 131; /* blue-grey           #6A7583 */
+  --line: 218 228 238; /* cool hairline        #DAE4EE */
+  --accent: 23 27 38; /* black accent          #171B26 */
+  --accent-deep: 5 8 15; /* deeper black       #05080F */
+
+  --blush: 189 218 240; /* light-blue stripe   #BDDAF0 */
+  --cream: 248 251 254; /* cool stripe white   #F8FBFE */
+  --gold: 154 166 182; /* cool silver          #9AA6B6 */
+}
+/* Recolor the magenta peony cut-outs toward steel blue in the ice palette
+   (replaces the wrapper's rose-tinted drop-shadow with a cool one). */
+html[data-palette="ice"] .salon-rose {
+  filter: hue-rotate(240deg) saturate(0.62) brightness(1.06)
+    drop-shadow(0 12px 18px rgba(23, 27, 38, 0.16));
 }
 
 @layer base {

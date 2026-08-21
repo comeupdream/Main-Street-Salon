@@ -18,7 +18,7 @@ const sans = Jost({
   display: "swap",
 });
 
-// Romantic script for "hello beautiful" flourishes.
+// Romantic script for "hello gorgeous" flourishes.
 const script = Parisienne({
   subsets: ["latin"],
   weight: "400",
@@ -72,7 +72,16 @@ export default function RootLayout({
       lang="en"
       className={`${serif.variable} ${sans.variable} ${script.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {/* Re-apply the persisted palette before first paint (no color flash). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{if(localStorage.getItem("salon-palette")==="ice")document.documentElement.dataset.palette="ice"}catch(e){}',
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
