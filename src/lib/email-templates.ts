@@ -117,7 +117,7 @@ export function clientBookingConfirmation(a: EmailAppointment): BuiltEmail {
     `\n\nNeed to change or cancel? Reply to this email or call ${SALON.phone}.\n\n${footerText()}`;
   return {
     subject,
-    html: shell({ preheader: "Your appointment is confirmed.", hello: "hello beautiful", heading: "You're booked!", body }),
+    html: shell({ preheader: "Your appointment is confirmed.", hello: "hello gorgeous", heading: "You're booked!", body }),
     text,
   };
 }
@@ -167,7 +167,7 @@ export function clientCancellation(a: EmailAppointment): BuiltEmail {
     `\n\nBook a new time: ${siteUrl()}/book  ·  or call ${SALON.phone}\n\n${footerText()}`;
   return {
     subject,
-    html: shell({ preheader: "Your appointment has been cancelled.", hello: "hello beautiful", heading: "Appointment cancelled", body }),
+    html: shell({ preheader: "Your appointment has been cancelled.", hello: "hello gorgeous", heading: "Appointment cancelled", body }),
     text,
   };
 }

@@ -33,7 +33,7 @@ booking form now requires one.
    | Key | Value |
    | --- | --- |
    | `RESEND_API_KEY` | the key from step 3 |
-   | `EMAIL_FROM` | `Main Street Salon <hello@mainstreetsalon.studio>` |
+   | `EMAIL_FROM` | `Infinite Parallel Salon <hello@mainstreetsalon.studio>` |
    | `OWNER_EMAIL` | the inbox that should get new-booking alerts |
    | `NEXT_PUBLIC_SITE_URL` | `https://mainstreetsalon.studio` |
    | `CRON_SECRET` | a long random string (Render's Blueprint generates one) |

@@ -55,7 +55,7 @@ export async function SalonHome({ showIntro = false }: { showIntro?: boolean }) 
       {/* ---------------------------------------------------------------- Hero */}
       <section className="relative isolate overflow-hidden stripes">
         {/* soft cream wash keeps the headline legible over the stripes */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_45%,_rgba(251,246,242,0.92),_rgba(251,246,242,0.55)_55%,_transparent)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_45%,_rgb(var(--cream)/0.92),_rgb(var(--cream)/0.55)_55%,_transparent)]" />
 
         <HeroChandelier />
         <Rose
@@ -77,7 +77,7 @@ export async function SalonHome({ showIntro = false }: { showIntro?: boolean }) 
 
         <div className="container-page relative z-30 flex min-h-[90vh] flex-col items-center pb-24 pt-48 text-center sm:pt-[355px]">
           <p className="script text-4xl text-accent animate-fade-up sm:text-5xl">
-            hello beautiful
+            hello gorgeous
           </p>
           <h1 className="mt-2 text-balance font-serif text-6xl font-medium leading-[1.02] animate-fade-up [animation-delay:80ms] sm:text-7xl lg:text-8xl">
             {SALON.name}

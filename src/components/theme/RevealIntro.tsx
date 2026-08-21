@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
  *   1. A gloriously awful "before" site (the actual store wall + raw photos).
  *   2. Clicking BOOK NOW fizzles it away to reveal a mid-fi draft
  *      (real wall photo + cropped photos in place).
- *   3. Clicking "hello beautiful" blooms the draft away to reveal the real site.
+ *   3. Clicking "hello gorgeous" blooms the draft away to reveal the real site.
  *
  * Purely a reveal gag — it sits on top of the real homepage and removes itself.
  */
@@ -75,17 +75,17 @@ export default function RevealIntro() {
             style={{ animation: "introPulse 2.4s ease-in-out infinite" }}
             aria-label="Reveal the real site"
           >
-            hello beautiful
+            hello gorgeous
             <span className="absolute -right-6 -top-2 text-xl">✨</span>
           </button>
           <h1 className="mt-1 font-serif text-7xl font-semibold text-ink sm:text-8xl">
-            Main Street Salon
+            Infinite Parallel Salon
           </h1>
           <p className="mt-5 max-w-md text-lg text-muted">
             Modern cuts, lived-in color, and a chair that feels like home.
           </p>
           <p className="mt-8 animate-pulse text-sm font-medium uppercase tracking-[0.2em] text-accent">
-            ↑ psst — click “hello beautiful”
+            ↑ psst — click “hello gorgeous”
           </p>
         </div>
       </div>
@@ -116,7 +116,7 @@ export default function RevealIntro() {
             WebkitTextStroke: "2px #000",
           }}
         >
-          Main Street Salon
+          Infinite Parallel Salon
         </div>
         <div className="mt-1 text-2xl" style={{ color: "#7a00cc", textShadow: "1px 1px 0 #fff" }}>
           ~*~ WELCOME 2 OUR WEBSITE !!! ~*~ 💇‍♀️✂️💖
@@ -158,7 +158,7 @@ export default function RevealIntro() {
             ⇒⇒ BOOK NOW !!!! ⇐⇐
           </button>
           <div className="mt-1 text-lg" style={{ color: "#7a00cc" }}>
-            or call 📞 (555) 248-1090 ask 4 sandy
+            or call 📞 (555) 314-1592 ask 4 the front desk
           </div>
         </div>
 
