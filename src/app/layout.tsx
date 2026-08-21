@@ -35,26 +35,19 @@ export const metadata: Metadata = {
     template: `%s · ${SALON.name}`,
   },
   description: SALON.tagline,
+  // The share-card image itself comes from src/app/opengraph-image.tsx
+  // (Next's file convention adds the og:image / twitter:image tags).
   openGraph: {
     type: "website",
     siteName: SALON.name,
     title: `${SALON.name} — Hair Salon`,
     description: SALON.tagline,
     url: "/",
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: `${SALON.name} — ${SALON.tagline}`,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SALON.name} — Hair Salon`,
     description: SALON.tagline,
-    images: ["/og.png"],
   },
 };
 
